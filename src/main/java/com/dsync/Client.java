@@ -2,6 +2,8 @@ package com.dsync;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Arrays;
+import java.util.HashSet;
 
 public class Client {
 
@@ -51,7 +53,43 @@ public class Client {
 					case MAIN_MENU: {
 						ConsoleHelper.writeMessage("Для выбора интересующего Вас раздела введите число.");
 						ConsoleHelper.writeMessage("1. Просмотр контента\t2. Управление личным кабинетом\t 3. Инфо");
-						ConsoleHelper.readInt();
+						switch (ConsoleHelper.readString(new HashSet<>(Arrays.asList("1", "2", "3")))) {
+							case "1": connection.send(new Message(Operation.VIEW_CONTENT)); break;
+							case "2": connection.send(new Message(Operation.MY_ACCOUNT)); break;
+							case "3": connection.send(new Message(Operation.INFO)); break;
+						}
+						break;
+					}
+					case INFO: {
+						ConsoleHelper.writeMessage("Для получения информации о возможностях услуги нажмите 1. Для того чтобы узнать стоимость нажмите 2.");
+						switch (ConsoleHelper.readString(new HashSet<>(Arrays.asList("1", "2")))) {
+							case "1": {
+								ConsoleHelper.writeMessage("Сервис позволяет прослушать контент и купить его.\nВыход в основное меню - *, # - вернуться в предыдущее меню");
+								switch (ConsoleHelper.readString(new HashSet<>(Arrays.asList("*", "#")))) {
+									case "*": connection.send(new Message(Operation.MAIN_MENU)); break;
+									case "#": connection.send(new Message(Operation.INFO)); break;
+								}
+								break;
+							}
+							case "2": {
+								ConsoleHelper.writeMessage("Весть контент стоит 100 рублей.\nВыход в основное меню - *, # - вернуться в предыдущее меню");
+								switch (ConsoleHelper.readString(new HashSet<>(Arrays.asList("*", "#")))) {
+									case "#": connection.send(new Message(Operation.INFO)); break;
+									case "*": connection.send(new Message(Operation.MAIN_MENU)); break;
+								}
+								break;
+							}
+						}
+						break;
+					}
+					case VIEW_CONTENT: {
+
+						break;
+					}
+					case MY_ACCOUNT: {
+						ConsoleHelper.writeMessage("Вы находитесь в меню управления услугой и редактирования персональной фонотеки.\nПри проигрывании мелодии наберите:\n1 для перехода к следующей\n2 для удаления данной мелодии.\n* для выхода в основное меню");
+
+						break;
 					}
 				}
 			}
@@ -77,7 +115,7 @@ public class Client {
 		SocketThread socketThread = getSocketThread();
 		socketThread.setDaemon(true);
 		socketThread.start();
-//		socketThread.run();
+		socketThread.run();
 
 		try {
 			synchronized (this) {

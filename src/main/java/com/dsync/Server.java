@@ -37,11 +37,15 @@ public class Server {
 			connection.send(new Message(Operation.MAIN_MENU));
 			while (true) {
 				Message message = connection.receive();
+				switch (message.getOperation()) {
+					case INFO: connection.send(new Message(Operation.INFO)); break;
+					case MAIN_MENU: connection.send(new Message(Operation.MAIN_MENU)); break;
+				}
 
 			}
 		}
 
-//		@Override
+		@Override
 		public void run() {
 			ConsoleHelper.writeMessage("Установлено новое соединение с уадленным адресом " + socket.getRemoteSocketAddress());
 			try {
@@ -69,9 +73,4 @@ public class Server {
 		}
 	}
 
-	private void serverMainLoop(Connection connection, String id) throws IOException, ClassNotFoundException {
-		while (true) {
-//			Message message = connection.receive();
-		}
-	}
 }
