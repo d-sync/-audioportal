@@ -2,6 +2,8 @@ package com.dsync.services;
 
 
 
+import com.dsync.dao.UserDao;
+import com.dsync.dao.UserDaoImpl;
 import com.dsync.model.User;
 
 import java.util.HashSet;
@@ -9,20 +11,20 @@ import java.util.Set;
 
 public class UserServiceImpl implements UserService {
 
-	private Set<User> users = new HashSet<>();
-
-	{
-		users.add(new User("1212"));
-		users.add(new User("9999"));
-	}
+	private UserDao userDao = UserDaoImpl.getInstance();
 
 	@Override
 	public User getUserById(long id) {
-		return null;
+		return userDao.getById(id);
 	}
 
 	@Override
 	public boolean isUserExists(String name) {
-		return users.contains(new User(name));
+		return userDao.isUserExists(name);
+	}
+
+	@Override
+	public void addUser(User user) {
+		userDao.save(user);
 	}
 }

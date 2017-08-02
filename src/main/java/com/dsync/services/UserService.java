@@ -8,4 +8,6 @@ public interface UserService {
 	User getUserById(long id);
 
 	boolean isUserExists(String name);
+
+	void addUser(User user);
 }

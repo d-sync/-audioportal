@@ -1,22 +1,35 @@
 package com.dsync.model;
 
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+@Entity
+@Table(name = "users")
 public class User {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "user_id")
 	private long id;
 
-	private String username;
+	@Column(name = "user_msisdn")
+	private String msisdn;
 
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(
+			name = "user_to_audio",
+			joinColumns = @JoinColumn(name = "user_id"),
+			inverseJoinColumns = @JoinColumn(name = "audio_content_id")
+	)
 	private Set<AudioContent> audioContents = new HashSet<>();
 
 
 	public User() {
 	}
 
-	public User(String username) {
-		this.username = username;
+	public User(String msisdn) {
+		this.msisdn = msisdn;
 	}
 
 	public long getId() {
@@ -27,12 +40,12 @@ public class User {
 
 	}
 
-	public String getUsername() {
-		return username;
+	public String getMsisdn() {
+		return msisdn;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setMsisdn(String msisdn) {
+		this.msisdn = msisdn;
 	}
 
 	public Set<AudioContent> getAudioContents() {
@@ -50,11 +63,11 @@ public class User {
 
 		User user = (User) o;
 
-		return username != null ? username.equals(user.username) : user.username == null;
+		return msisdn != null ? msisdn.equals(user.msisdn) : user.msisdn == null;
 	}
 
 	@Override
 	public int hashCode() {
-		return username != null ? username.hashCode() : 0;
+		return msisdn != null ? msisdn.hashCode() : 0;
 	}
 }

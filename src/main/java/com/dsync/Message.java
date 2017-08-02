@@ -1,6 +1,6 @@
 package com.dsync;
 
-import com.dsync.model.AudioContent;
+
 
 import java.io.Serializable;
 import java.util.Set;
@@ -11,7 +11,8 @@ public class Message implements Serializable{
 
 	private String data;
 
-	private Set<AudioContent> audioContents;
+	private Set<String> items;
+
 
 	public Message(Operation operation, String data) {
 		this.operation = operation;
@@ -22,9 +23,13 @@ public class Message implements Serializable{
 		this.operation = operation;
 	}
 
-	public Message(Operation operation, Set<AudioContent> audioContents) {
-		this.operation = operation;
-		this.audioContents = audioContents;
+	public Message(String data, Set<String> items) {
+		this.data = data;
+		this.items = items;
+	}
+
+	public Message(String data) {
+		this.data = data;
 	}
 
 	public Operation getOperation() {

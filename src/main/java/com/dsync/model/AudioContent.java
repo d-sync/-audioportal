@@ -1,14 +1,28 @@
 package com.dsync.model;
 
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "audio_content")
 public class AudioContent {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "audio_content_id")
 	private long id;
 
+	@Column(name = "artist")
 	private String artist;
 
+	@Column(name = "composition")
 	private String composition;
 
+	@Column(name = "link")
 	private String link;
+
+	public AudioContent() {
+	}
 
 	public AudioContent(String artist, String composition, String link) {
 		this.artist = artist;
@@ -66,5 +80,13 @@ public class AudioContent {
 		result = 31 * result + (composition != null ? composition.hashCode() : 0);
 		result = 31 * result + (link != null ? link.hashCode() : 0);
 		return result;
+	}
+
+	@Override
+	public String toString() {
+		return "AudioContent{" +
+				"artist='" + artist + '\'' +
+				", composition='" + composition + '\'' +
+				'}';
 	}
 }
