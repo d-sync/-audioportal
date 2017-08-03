@@ -21,6 +21,15 @@ public class AudioContent {
 	@Column(name = "link")
 	private String link;
 
+	@Column(name = "isPopular")
+	private boolean isPopular;
+
+	@Column(name = "isNew")
+	private boolean isNew;
+
+	@Column(name = "isHit")
+	private boolean isHit;
+
 	public AudioContent() {
 	}
 
@@ -60,6 +69,30 @@ public class AudioContent {
 
 	public void setLink(String link) {
 		this.link = link;
+	}
+
+	public boolean isPopular() {
+		return isPopular;
+	}
+
+	public void setPopular(boolean popular) {
+		isPopular = popular;
+	}
+
+	public boolean isNew() {
+		return isNew;
+	}
+
+	public void setNew(boolean aNew) {
+		isNew = aNew;
+	}
+
+	public boolean isHit() {
+		return isHit;
+	}
+
+	public void setHit(boolean hit) {
+		isHit = hit;
 	}
 
 	@Override

@@ -74,7 +74,7 @@ public class UserDaoImpl implements UserDao{
 	public boolean isUserExists(String name) {
 		Session session = sessionFactory.openSession();
 		Transaction transaction = session.beginTransaction();
-		String query = String.format("FROM User WHERE user_name = '%s'", name);
+		String query = String.format("FROM User WHERE user_msisdn = '%s'", name);
 		List<User> users =  session.createQuery(query).list();
 		transaction.commit();
 		session.close();

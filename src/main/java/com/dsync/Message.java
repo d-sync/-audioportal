@@ -11,8 +11,6 @@ public class Message implements Serializable{
 
 	private String data;
 
-	private Set<String> items;
-
 
 	public Message(Operation operation, String data) {
 		this.operation = operation;
@@ -21,15 +19,6 @@ public class Message implements Serializable{
 
 	public Message(Operation operation) {
 		this.operation = operation;
-	}
-
-	public Message(String data, Set<String> items) {
-		this.data = data;
-		this.items = items;
-	}
-
-	public Message(String data) {
-		this.data = data;
 	}
 
 	public Operation getOperation() {
