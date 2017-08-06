@@ -2,10 +2,11 @@ package com.dsync.model;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "audio_content")
-public class AudioContent {
+public class AudioContent implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -117,9 +118,6 @@ public class AudioContent {
 
 	@Override
 	public String toString() {
-		return "AudioContent{" +
-				"artist='" + artist + '\'' +
-				", composition='" + composition + '\'' +
-				'}';
+		return artist + " - " + composition;
 	}
 }

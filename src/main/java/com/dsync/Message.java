@@ -2,6 +2,8 @@ package com.dsync;
 
 
 
+import com.dsync.model.AudioContent;
+
 import java.io.Serializable;
 import java.util.Set;
 
@@ -11,6 +13,12 @@ public class Message implements Serializable{
 
 	private String data;
 
+	private AudioContent audioContent;
+
+	public Message(Operation operation, AudioContent audioContent) {
+		this.operation = operation;
+		this.audioContent = audioContent;
+	}
 
 	public Message(Operation operation, String data) {
 		this.operation = operation;
@@ -27,5 +35,9 @@ public class Message implements Serializable{
 
 	public String getData() {
 		return data;
+	}
+
+	public AudioContent getAudioContent() {
+		return audioContent;
 	}
 }

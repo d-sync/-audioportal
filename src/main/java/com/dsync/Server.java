@@ -3,20 +3,19 @@ package com.dsync;
 
 
 
-import com.dsync.model.User;
+import com.dsync.model.AudioContent;
+import com.dsync.services.AudioContentService;
+import com.dsync.services.AudioContentServiceImpl;
 import com.dsync.services.UserService;
 import com.dsync.services.UserServiceImpl;
 
 
-import java.applet.Applet;
-import java.applet.AudioClip;
 import java.io.IOException;
-import java.net.MalformedURLException;
+
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.URL;
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Server {
 
@@ -24,8 +23,11 @@ public class Server {
 //	private static class Handler {
 		private Socket socket;
 		private String msisdn;
+		private Queue<AudioContent> currentAudioContents;
+		private AudioContent audioContent;
 
 		private UserService userService = new UserServiceImpl();
+		private AudioContentService audioContentService = new AudioContentServiceImpl();
 
 		public Handler(Socket socket) {
 			this.socket = socket;
@@ -49,12 +51,52 @@ public class Server {
 			connection.send(new Message(Operation.MAIN_MENU));
 			while (true) {
 				Message message = connection.receive();
-				connection.send(message);
+				Operation o = message.getOperation();
+				if (o == Operation.VIEW_CONTENT_POP) {
+					currentAudioContents =  new LinkedList<>(audioContentService.getPopularAudioContent());
+					audioContent = currentAudioContents.poll();
+					currentAudioContents.add(audioContent);
+					connection.send(new Message(Operation.VIEW_CONTENT_POP, audioContent));
+				} else if (o == Operation.VIEW_CONTENT_NEW) {
+					currentAudioContents = new LinkedList<>(audioContentService.getNewAudioContent());
+					audioContent = currentAudioContents.poll();
+					currentAudioContents.add(audioContent);
+					connection.send(new Message(Operation.VIEW_CONTENT_NEW, audioContent));
+				} else if (o == Operation.VIEW_CONTENT_HITS) {
+					currentAudioContents = new LinkedList<>(audioContentService.getHitsAudioContent());
+					audioContent = currentAudioContents.poll();
+					currentAudioContents.add(audioContent);
+					connection.send(new Message(Operation.VIEW_CONTENT_HITS, audioContent));
+				} else if (o == Operation.NEXT_AUDIO || o == Operation.NEXT_MY_AUDIO) {
+					audioContent = currentAudioContents.poll();
+					currentAudioContents.add(audioContent);
+					connection.send(new Message(Operation.NEXT_AUDIO, audioContent));
+				} else if (o == Operation.BUY_AUDIO) {
+					userService.buyCurrentTrack(msisdn, audioContent);
+					connection.send(message);
+				} else if (o == Operation.MY_ACCOUNT) {
+					currentAudioContents = new LinkedList<>(audioContentService.getUserAudioContent(msisdn));
+					audioContent = currentAudioContents.poll();
+					currentAudioContents.add(audioContent);
+					connection.send(new Message(Operation.MY_ACCOUNT, audioContent));
+				} else if (o == Operation.DELETE_AUDIO) {
+					userService.deleteAudioFromUserAccount(audioContent, msisdn);
+					currentAudioContents.remove(audioContent);
+					audioContent = currentAudioContents.poll();
+					currentAudioContents.add(audioContent);
+					connection.send(new Message(Operation.DELETE_AUDIO, audioContent));
+				}
+
+				else {
+					connection.send(message);
+				}
+
+
 			}
 		}
 
 
-		@Override
+//		@Override
 		public void run() {
 			ConsoleHelper.writeMessage("Установлено новое соединение с уадленным адресом " + socket.getRemoteSocketAddress());
 			try {
@@ -70,11 +112,6 @@ public class Server {
 
 	public static void main(String[] args) {
 
-//		UserService userService = new UserServiceImpl();
-//		User user = new User("1212");
-//		userService.addUser(user);
-
-
 		try(ServerSocket serverSocket = new ServerSocket(8080)) {
 			ConsoleHelper.writeMessage("Server started.");
 
@@ -84,7 +121,7 @@ public class Server {
 //				handler.run();
 			}
 		} catch (Exception e) {
-
+			e.printStackTrace();
 		}
 	}
 

@@ -41,7 +41,7 @@ public class Client {
 			while (true) {
 				Message message = connection.receive();
 				if (message.getOperation() == Operation.AUTHENTIFICATION_REQUEST) {
-					connection.send(new Message(Operation.AUTHENTIFICATION_RESPONSE, getUserName()));
+					connection.send(new Message(Operation.AUTHENTIFICATION_RESPONSE, getUserMSISDN()));
 				} else if (message.getOperation() == Operation.ID_ACCEPTED) {
 					notifyConnectionStatusChanged(true);
 					break;
@@ -56,14 +56,22 @@ public class Client {
 				Message message = connection.receive();
 				if (message != null) {
 					currentOperation = message.getOperation();
-					CommandExecutor.execute(currentOperation);
+					if (currentOperation == Operation.VIEW_CONTENT_POP || currentOperation == Operation.VIEW_CONTENT_NEW || currentOperation == Operation.VIEW_CONTENT_HITS || currentOperation == Operation.NEXT_AUDIO || currentOperation == Operation.MY_ACCOUNT || currentOperation == Operation.DELETE_AUDIO) {
+						CommandExecutor.execute(currentOperation);
+						if (message.getAudioContent() != null) {
+							ConsoleHelper.writeMessage("\nplaying: " + message.getAudioContent());
+						} else {
+							ConsoleHelper.writeMessage("\nВаша фонотека пуста.");
+						}
+					}
+					else CommandExecutor.execute(currentOperation);
 				}
 			}
 		}
 	}
 
-	protected String getUserName() {
-		ConsoleHelper.writeMessage("Enter your id.");
+	protected String getUserMSISDN() {
+		ConsoleHelper.writeMessage("Введите ваш msssdn.");
 		String name = ConsoleHelper.readString();
 
 		return name;
@@ -95,10 +103,10 @@ public class Client {
 		} catch (InterruptedException e) {
 			ConsoleHelper.writeMessage("Ошибка во время ожидания.");
 		}
-		someMethod();
+		clientLogic();
 	}
 
-	private void someMethod() {
+	private void clientLogic() {
 		while (clientConnected) {
 			if (currentOperation == Operation.MAIN_MENU) {
 				String text = ConsoleHelper.readString(new HashSet<>(Arrays.asList("1", "2", "3")));

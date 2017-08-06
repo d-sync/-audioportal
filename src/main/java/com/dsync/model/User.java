@@ -16,7 +16,7 @@ public class User {
 	@Column(name = "user_msisdn")
 	private String msisdn;
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(
 			name = "user_to_audio",
 			joinColumns = @JoinColumn(name = "user_id"),
@@ -38,6 +38,9 @@ public class User {
 
 	public void setId(long id) {
 
+	}
+	public void addAudioContent(AudioContent audioContent) {
+		audioContents.add(audioContent);
 	}
 
 	public String getMsisdn() {
