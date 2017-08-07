@@ -14,4 +14,5 @@ public interface AudioContentService {
 
 	Set<AudioContent> getHitsAudioContent();
 
+	void add(AudioContent audioContent);
 }

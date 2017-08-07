@@ -33,7 +33,7 @@ public class AudioContentDaoImpl implements AudioContentDao {
 	public Set<AudioContent> getPopularAudioContent() {
 		Session session = sessionFactory.openSession();
 		Transaction transaction = session.beginTransaction();
-		String nativeQuery = "SELECT * FROM audio_content ac WHERE ac.isPopular = 1";
+		String nativeQuery = "SELECT * FROM audio_content ac WHERE ac.isPopular = true";
 		List<AudioContent> pops = session.createNativeQuery(nativeQuery, AudioContent.class).list();
 		transaction.commit();
 		session.close();
@@ -44,7 +44,7 @@ public class AudioContentDaoImpl implements AudioContentDao {
 	public Set<AudioContent> getNewAudioContent() {
 		Session session = sessionFactory.openSession();
 		Transaction transaction = session.beginTransaction();
-		String nativeQuery = "SELECT * FROM audio_content ac WHERE ac.isNew = 1";
+		String nativeQuery = "SELECT * FROM audio_content ac WHERE ac.isNew = true";
 		List<AudioContent> newAudio = session.createNativeQuery(nativeQuery, AudioContent.class).list();
 		transaction.commit();
 		session.close();
@@ -55,7 +55,7 @@ public class AudioContentDaoImpl implements AudioContentDao {
 	public Set<AudioContent> getHitAudioContent() {
 		Session session = sessionFactory.openSession();
 		Transaction transaction = session.beginTransaction();
-		String nativeQuery = "SELECT * FROM audio_content ac WHERE ac.isHit = 1";
+		String nativeQuery = "SELECT * FROM audio_content ac WHERE ac.isHit = true";
 		List<AudioContent> hits = session.createNativeQuery(nativeQuery, AudioContent.class).list();
 		transaction.commit();
 		session.close();
@@ -63,7 +63,12 @@ public class AudioContentDaoImpl implements AudioContentDao {
 	}
 
 	@Override
-	public void save(AudioContent entity) {
+	public void save(AudioContent audioContent) {
+		Session session = sessionFactory.openSession();
+		Transaction transaction = session.beginTransaction();
+		session.save(audioContent);
+		transaction.commit();
+		session.close();
 
 	}
 

@@ -1,11 +1,8 @@
 package com.dsync;
 
-
-
 import com.dsync.model.AudioContent;
 
 import java.io.Serializable;
-import java.util.Set;
 
 public class Message implements Serializable{
 

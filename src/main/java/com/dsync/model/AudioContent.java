@@ -40,6 +40,15 @@ public class AudioContent implements Serializable {
 		this.link = link;
 	}
 
+	public AudioContent(String artist, String composition, String link, boolean isPopular, boolean isNew, boolean isHit) {
+		this.artist = artist;
+		this.composition = composition;
+		this.link = link;
+		this.isPopular = isPopular;
+		this.isNew = isNew;
+		this.isHit = isHit;
+	}
+
 	public long getId() {
 		return id;
 	}

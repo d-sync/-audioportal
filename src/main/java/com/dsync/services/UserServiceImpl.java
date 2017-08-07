@@ -1,14 +1,10 @@
 package com.dsync.services;
 
-
-
 import com.dsync.dao.UserDao;
 import com.dsync.dao.UserDaoImpl;
 import com.dsync.model.AudioContent;
 import com.dsync.model.User;
 
-import java.util.HashSet;
-import java.util.Set;
 
 public class UserServiceImpl implements UserService {
 

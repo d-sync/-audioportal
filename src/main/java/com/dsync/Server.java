@@ -1,14 +1,11 @@
 package com.dsync;
 
-
-
-
+import com.dsync.configs.initializer.TestDataInitializer;
 import com.dsync.model.AudioContent;
 import com.dsync.services.AudioContentService;
 import com.dsync.services.AudioContentServiceImpl;
 import com.dsync.services.UserService;
 import com.dsync.services.UserServiceImpl;
-
 
 import java.io.IOException;
 
@@ -20,7 +17,6 @@ import java.util.Queue;
 public class Server {
 
 	private static class Handler extends Thread {
-//	private static class Handler {
 		private Socket socket;
 		private String msisdn;
 		private Queue<AudioContent> currentAudioContents;
@@ -96,7 +92,7 @@ public class Server {
 		}
 
 
-//		@Override
+		@Override
 		public void run() {
 			ConsoleHelper.writeMessage("Установлено новое соединение с уадленным адресом " + socket.getRemoteSocketAddress());
 			try {
@@ -112,17 +108,17 @@ public class Server {
 
 	public static void main(String[] args) {
 
+		TestDataInitializer.init();
+
 		try(ServerSocket serverSocket = new ServerSocket(8080)) {
 			ConsoleHelper.writeMessage("Server started.");
 
 			while (true) {
 				Handler handler = new Handler(serverSocket.accept());
 				handler.start();
-//				handler.run();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
 }

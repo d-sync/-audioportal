@@ -8,16 +8,11 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 public class Client {
-
-
-
 	protected Connection connection;
 	private volatile boolean clientConnected = false;
 	private volatile Operation currentOperation;
 
 	public class SocketThread extends Thread {
-//		public class SocketThread {
-
 		@Override
 		public void run() {
 			try {
@@ -71,7 +66,7 @@ public class Client {
 	}
 
 	protected String getUserMSISDN() {
-		ConsoleHelper.writeMessage("Введите ваш msssdn.");
+		ConsoleHelper.writeMessage("Введите ваш msisdn.");
 		String name = ConsoleHelper.readString();
 
 		return name;
@@ -94,7 +89,6 @@ public class Client {
 		SocketThread socketThread = getSocketThread();
 		socketThread.setDaemon(true);
 		socketThread.start();
-//		socketThread.run();
 
 		try {
 			synchronized (this) {

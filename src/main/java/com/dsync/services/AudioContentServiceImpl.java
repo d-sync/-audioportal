@@ -2,10 +2,7 @@ package com.dsync.services;
 
 import com.dsync.dao.AudioContentDao;
 import com.dsync.dao.AudioContentDaoImpl;
-import com.dsync.dao.UserDao;
-import com.dsync.dao.UserDaoImpl;
 import com.dsync.model.AudioContent;
-import com.dsync.model.User;
 
 import java.util.Set;
 
@@ -33,6 +30,10 @@ public class AudioContentServiceImpl implements AudioContentService {
 		return audioContentDao.getHitAudioContent();
 	}
 
+	@Override
+	public void add(AudioContent audioContent) {
+		audioContentDao.save(audioContent);
+	}
 
 
 }

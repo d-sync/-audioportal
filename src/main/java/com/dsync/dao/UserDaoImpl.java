@@ -55,7 +55,7 @@ public class UserDaoImpl implements UserDao{
 		Session session = sessionFactory.openSession();
 		Transaction transaction = session.beginTransaction();
 		String query = String.format("FROM User WHERE user_msisdn = '%s'", msisdn);
-		User user = (User) session.createQuery(query).getSingleResult();
+		User user = session.createQuery(query, User.class).getSingleResult();
 		transaction.commit();
 		session.close();
 		return user;

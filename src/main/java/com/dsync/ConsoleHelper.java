@@ -30,19 +30,4 @@ public class ConsoleHelper {
 		}
 		return line = readString(menu);
 	}
-
-	public static int readInt(int point) {
-		int num;
-		try {
-			num = Integer.parseInt(readString());
-			if (num > point || num < 0) {
-				writeMessage("Введите число от 1 до " + point);
-				num = readInt(point);
-			}
-		} catch (NumberFormatException e) {
-			writeMessage("Ошибка при попытке ввода числа. Попробуйте еще раз.");
-			num = readInt(point);
-		}
-		return num;
-	}
 }
