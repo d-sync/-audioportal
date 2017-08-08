@@ -11,8 +11,8 @@ import org.hibernate.service.ServiceRegistry;
 public class HibernateConfig {
 
 	public static SessionFactory getSessionFactory() {
-//		Configuration configuration = getPostgreSqlConfiguration();
-		Configuration configuration = getMySqlConfiguration();
+		Configuration configuration = getPostgreSqlConfiguration();
+//		Configuration configuration = getMySqlConfiguration();
 
 		StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder();
 		builder.applySettings(configuration.getProperties());
@@ -28,7 +28,7 @@ public class HibernateConfig {
 		configuration.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
 		configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/base");
 		configuration.setProperty("hibernate.connection.username", "root");
-		configuration.setProperty("hibernate.connection.password", "sqlpassword777");
+		configuration.setProperty("hibernate.connection.password", "root");
 		configuration.setProperty("hibernate.show_sql", "true");
 		configuration.setProperty("hibernate.hbm2ddl.auto", "update");
 		return configuration;
